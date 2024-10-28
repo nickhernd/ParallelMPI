@@ -13,8 +13,8 @@ int main(int argc, char** argv) {
     
     // Inicializar MPI
     MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);  // Obtener el rango del proceso actual
-    MPI_Comm_size(MPI_COMM_WORLD, &size);  // Obtener el número total de procesos
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);  // Obtener el rango
+    MPI_Comm_size(MPI_COMM_WORLD, &size);  // Obtener el número total
     
     // El proceso 0 inicializa el vector
     if (rank == 0) {
@@ -28,7 +28,6 @@ int main(int argc, char** argv) {
     chunk_size = LEN / size;
     remainder = LEN % size;
     
-    // Determinar el tamaño y los índices locales para cada proceso
     if (rank < remainder) {
         local_size = chunk_size + 1;
         local_start = rank * (chunk_size + 1);
@@ -38,7 +37,7 @@ int main(int argc, char** argv) {
     }
     local_end = local_start + local_size - 1;
     
-    // Asignar memoria para el vector local
+    // Asignar memoria para el vector local? -> funciona
     local_vector = (int *) malloc(sizeof(int) * local_size);
     
     // Distribuir el vector entre todos los procesos
